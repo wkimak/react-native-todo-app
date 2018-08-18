@@ -1,31 +1,55 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Button, TextInput } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Icon, CheckBox } from 'react-native-elements';
 
 
 
 class TaskItem extends Component {
   
   state = {
-    updateText: this.props.description
+    updateText: this.props.description,
+    checked: false
   }
+
+  handleCheckBox = () => {
+    this.setState({ checked: !this.state.checked }, () => {
+      if(this.state.checked) {
+        this.props.handleComplete(this.props.id);
+      } else {
+        this.props.handleUncomplete(this.props.id);
+      }
+    });
+  } 
 
 
   render() {
-    const { description, handleDelete, handleEdit, editIndex, handleSaveEdit, index } = this.props;
+    const { description, 
+            handleDelete, 
+            handleEdit, 
+            editIndex, 
+            handleSaveEdit, 
+            id } = this.props;
+
   
-    if(editIndex !== index) {
+    if(editIndex !== id) {
       return (
         <View style={ styles.container }>
-          <Icon name="edit" onPress={ () => handleEdit(index) } />
+          <CheckBox
+            title='checked'
+            checkedIcon='dot-circle-o'
+            uncheckedIcon='circle-o'
+            checked={ this.state.checked }
+            onPress={ () => this.handleCheckBox() } 
+          />
           <View style={ styles.description }><Text>{ description }</Text></View>
-          <Icon name="remove" onPress={ () => handleDelete(index) } />
+          <Icon name="edit" onPress={ () => handleEdit(id) } />
+          <Icon name="remove" onPress={ () => handleDelete(id) } />
         </View>
       );
     } else {
         return (
           <View style={ styles.container }>
-            <Icon name="save" onPress={ () => handleSaveEdit(index, {description: this.state.updateText}) } />
+            <Icon name="save" onPress={ () => handleSaveEdit( {description: this.state.updateText, id: id, complete: this.state.checked}) } />
             <TextInput value={ description } onChangeText={ (updateText) => this.setState({ updateText }) } />
           </View>
         );
@@ -46,7 +70,7 @@ const styles = StyleSheet.create({
   },
 
   description: {
-    flex: 1
+    flex: 1,
   },
 
   edit: {

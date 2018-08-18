@@ -5,8 +5,13 @@ class AddForm extends Component {
 
   state = { description: ''}
 
+  generateKey() {
+    return `${ new Date().getTime() }`;
+  }
+
   render() {
     const { handleSubmit } = this.props;
+
     return (
       <View style={styles.container}>
         <TextInput placeholder='Description' 
@@ -15,7 +20,7 @@ class AddForm extends Component {
                    onChangeText={ (description) => this.setState({ description })} />
 
         <TouchableOpacity style={styles.submit} 
-                          onPress={ () => handleSubmit({description: this.state.description}) }>
+                          onPress={ () => handleSubmit({description: this.state.description, id: this.generateKey(), complete: false }) }>
           <Text style={styles.btnTxt}>Submit</Text>
         </TouchableOpacity> 
       </View>

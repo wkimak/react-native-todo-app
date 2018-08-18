@@ -1,23 +1,33 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createBottomTabNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 
-import TaskList from '../screens/TaskList';
+import AllTasks from '../screens/AllTasks';
 import AddTask from '../screens/AddTask';
+import CompletedTasks from '../screens/CompletedTasks';
+
+
+const AllTasksStack = createStackNavigator({
+  AllTasks: AllTasks,
+  AddTask: AddTask
+});
 
 
 const LoggedIn = createBottomTabNavigator({
-  TaskList: {
-    screen: TaskList
+  AllTasks: {
+    screen: AllTasksStack,
+    navigationOptions: ({ navigation }) => ({
+      tabBarLabel: 'All',
+      tabBarVisible: navigation.state.index === 1 ? false : true
+    })
   },
+  CompletedTasks: {
+    screen: CompletedTasks,
+    navigationOptions: {
+      tabBarLabel: 'Completed'
+    }
+  } 
 
-  AddTask: {
-    screen: AddTask
-  }
-}, {
-     initialRouteName: 'TaskList',  
-   }
-
-);
+});
 
 export default LoggedIn;

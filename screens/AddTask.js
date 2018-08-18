@@ -7,6 +7,9 @@ import AddForm from '../components/AddForm';
 
 
 class AddTask extends Component {
+   static navigationOptions = {
+    title: 'Add Task'
+  }
 
   handleSubmit = (task) => {
     this.props.add(task);
