@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
+
 import CompleteTaskItem from '../components/CompleteTaskItem';
 
 class CompletedTasks extends Component {
@@ -24,9 +25,7 @@ const mapStateToProps = (state) => ({
   taskList: state.taskList.taskList
 })
 
-const connectCompletedTasks = connect(mapStateToProps, {})(CompletedTasks);
-
-export default connectCompletedTasks;
+export default connect(mapStateToProps, {})(CompletedTasks);
 
 const styles = {
   tasksContainer: {

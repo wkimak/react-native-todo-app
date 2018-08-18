@@ -25,9 +25,9 @@ class TaskItem extends Component {
   render() {
     const { description, 
             handleDelete, 
-            handleEdit, 
+            handleEdit,
+            handleSave, 
             editIndex, 
-            handleSaveEdit, 
             id } = this.props;
 
   
@@ -49,7 +49,7 @@ class TaskItem extends Component {
     } else {
         return (
           <View style={ styles.container }>
-            <Icon name="save" onPress={ () => handleSaveEdit( {description: this.state.updateText, id: id, complete: this.state.checked}) } />
+            <Icon name="save" onPress={ () => handleSave( {description: this.state.updateText, id: id, complete: this.state.checked}) } />
             <TextInput value={ description } onChangeText={ (updateText) => this.setState({ updateText }) } />
           </View>
         );

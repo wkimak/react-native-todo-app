@@ -1,19 +1,23 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 
-import AllTasks from '../screens/AllTasks';
-import AddTask from '../screens/AddTask';
-import CompletedTasks from '../screens/CompletedTasks';
+import LoginScreen from '../screens/LoginScreen';
+import AllTasksScreen from '../screens/AllTasksScreen';
+import AddTaskScreen from '../screens/AddTaskScreen';
+import CompletedTasksScreen from '../screens/CompletedTasksScreen';
 
 
-const AllTasksStack = createStackNavigator({
-  AllTasks: AllTasks,
-  AddTask: AddTask
+const AuthStack = createStackNavigator({
+  Login: LoginScreen
 });
 
+const AllTasksStack = createStackNavigator({
+  AllTasks: AllTasksScreen,
+  AddTask: AddTaskScreen
+});
 
-const LoggedIn = createBottomTabNavigator({
+const AppStack = createBottomTabNavigator({
   AllTasks: {
     screen: AllTasksStack,
     navigationOptions: ({ navigation }) => ({
@@ -22,12 +26,18 @@ const LoggedIn = createBottomTabNavigator({
     })
   },
   CompletedTasks: {
-    screen: CompletedTasks,
+    screen: CompletedTasksScreen,
     navigationOptions: {
       tabBarLabel: 'Completed'
     }
   } 
-
 });
 
-export default LoggedIn;
+export default createSwitchNavigator({
+  Auth: AuthStack,
+  App: AppStack
+}, {
+  initialRouteName: 'App'
+})
+
+

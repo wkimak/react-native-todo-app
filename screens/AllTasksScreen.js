@@ -2,38 +2,20 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { deleteTask, editTask, saveEdit, completeTask, uncompleteTask } from '../redux/actions/taskActions';
 
+import { deleteTask, editTask, saveEdit, completeTask, uncompleteTask } from '../redux/actions/taskActions';
 import TaskItem from '../components/TaskItem';
 
 class AllTasks extends Component {
 
-  static navigationOptions = {
-    tabBarLabel: 'hello'
-  }
-
-  handleDelete = (id) => {
-    this.props.delete(id);
-  }
-
-  handleEdit = (index) => {
-    this.props.edit(index);
-  }
-
-  handleSaveEdit = (task) => {
-    this.props.save(task);
-  }
-
-  handleComplete = (id) => {
-    this.props.complete(id);
-  }
-
-  handleUncomplete = (id) => {
-    this.props.uncomplete(id);
-  }
-
   render() {
-    const { taskList, editIndex } = this.props;
+    const { taskList, 
+            editIndex, 
+            handleDelete, 
+            handleEdit, 
+            handleSave, 
+            handleComplete, 
+            handleUncomplete } = this.props;
 
     return (
       <View style={ styles.container }>
@@ -48,12 +30,12 @@ class AllTasks extends Component {
               <TaskItem key={ i } 
                       id={ item.id } 
                       description={ item.description }
-                      handleEdit={ this.handleEdit }
+                      handleEdit={ handleEdit }
                       editIndex={ editIndex }
-                      handleSaveEdit={ this.handleSaveEdit }
-                      handleDelete={ this.handleDelete }
-                      handleComplete={ this.handleComplete }
-                      handleUncomplete={ this.handleUncomplete }
+                      handleSave={ handleSave }
+                      handleDelete={ handleDelete }
+                      handleComplete={ handleComplete }
+                      handleUncomplete={ handleUncomplete }
                        />
             );
           }) : null }
@@ -71,28 +53,26 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    delete: (id) => {
+    handleDelete: (id) => {
       dispatch(deleteTask(id));
     },
-    edit: (index) => {
+    handleEdit: (index) => {
       dispatch(editTask(index));
     },
-    save: (task) => {
+    handleSave: (task) => {
       dispatch(saveEdit(task));
     },
-    complete: (id) => {
+    handleComplete: (id) => {
       dispatch(completeTask(id))
     },
-    uncomplete: (id) => {
+    handleUncomplete: (id) => {
       dispatch(uncompleteTask(id));
     }
   }
 }
 
-const connectTaskList = connect(mapStateToProps, mapDispatchToProps)(AllTasks);
+export default connect(mapStateToProps, mapDispatchToProps)(AllTasks);
 
-
-export default connectTaskList;
 
 
 const styles = StyleSheet.create({
