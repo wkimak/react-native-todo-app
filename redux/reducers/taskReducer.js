@@ -14,6 +14,20 @@ const taskReducer = (state = initialState, action) => {
         taskList: [...state.taskList, {description: action.payload.description, id: action.payload.id, complete: action.payload.complete }]
       }
 
+    case 'READ_TASKS':
+   
+      const obj = action.payload;
+      const copy = [];
+
+      for(let key in obj) {
+        copy.push(obj[key]);
+      }
+      
+      return {
+        ...state,
+        taskList: copy
+      }
+
     case 'DELETE_TASK':
       for(let i = 0; i < state.taskList.length; i++) {
         if(state.taskList[i].id === action.payload) {

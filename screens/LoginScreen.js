@@ -4,6 +4,9 @@ import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { firebaseConfig } from '../config';
 import * as firebase from 'firebase';
+import { connect } from 'react-redux';
+
+import { getUserInfo } from '../redux/actions/authActions';
 
 
 firebase.initializeApp(firebaseConfig);
@@ -16,6 +19,7 @@ class Login extends Component {
     // Listen for authentication state to change.
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
+        this.props.getUserInfo(user.displayName, user.uid);
         this.props.navigation.navigate('App');
       } 
     });
@@ -45,10 +49,8 @@ class Login extends Component {
 
   render() {
     return (
-      <ImageBackground source={require('../assets/broadway.jpeg')} style={ styles.backgroundImage }>
+      <View style={styles.backgroundImage}>
         <View style={ styles.container }>
-          <Image style={ styles.logo } source={require('../assets/lotusLogo.png')} />
-          <View style={ styles.btnContainer}>
             <Button 
               icon={ 
                 <Icon name='facebook-square' 
@@ -60,40 +62,29 @@ class Login extends Component {
               title='Facebook Login'
               buttonStyle={{
                 backgroundColor: '#3b5998',
-                width: 200,
+                width: 300,
+                height: 70,
                 borderRadius: 5,
                 marginBottom: 30
               }}
             />
-            <Button
-              title='Create Free Account'
-              buttonStyle={{
-                width: 340,
-                borderRadius: 5,
-                backgroundColor: '#f4511e',
-                marginBottom: 10
-              }}
-             />
-            <Button
-              title='Sign In'
-              buttonStyle={{
-                width: 340,
-                borderRadius: 5,
-                backgroundColor: 'white',
-                marginBottom: 10
-              }}
-              textStyle={{
-                color: 'black'
-              }}
-             />
           </View>
-        </View>
-      </ImageBackground>
+      </View>
     );
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => {
+ return {
+   getUserInfo: (username, uid) => {
+    dispatch(getUserInfo(username, uid));
+   }
+ };
+}
+
+
+
+export default connect(null, mapDispatchToProps)(Login);
 
 const styles = StyleSheet.create({
   backgroundImage: {
@@ -101,7 +92,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: 20,
-    paddingBottom: 20
+    paddingBottom: 20,
+    backgroundColor: '#3b5998',
   },
 
   container:{
@@ -110,17 +102,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
     paddingTop: 20,
     paddingBottom: 20,
-    opacity: 0.95
-  },
-
-  logo: {
-    flex: 1
-  },
-
-  btnContainer: {
-    flex: 2,
-    alignItems: 'center',
+    opacity: 0.95,
     justifyContent: 'flex-end'
-  },
+  }
 
 })

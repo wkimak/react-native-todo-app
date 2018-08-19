@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Button, FlatList } from 'react-native';
+import { StyleSheet, View, Text, Button, FlatList, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
 
 import CompleteTaskItem from '../components/CompleteTaskItem';
@@ -9,17 +9,20 @@ class CompletedTasks extends Component {
     const { taskList } = this.props;
     return (
       <View style={ styles.tasksContainer }>
+      <ImageBackground source={ require('../assets/nightsky.jpeg') } style={styles.backgroundImage}>
+        <Text> Completed </Text>
+      </ImageBackground>
+    
       <FlatList
-        data={ taskList.map((item) => {
+        data={ taskList.map((item) => (
+              { key: item.id, description: item.description, complete: item.complete }
+        ))}
+        renderItem={({ item }) => {
           if(item.complete) {
             return (
-              { key: item.id, description: item.description }
+              <CompleteTaskItem key={item.key} description={ item.description } />
             );
-          }
-        })}
-        renderItem={({ item }) => (
-          <CompleteTaskItem key={ item.id } description={ item.description } />
-        )}
+          }}}
       />
       </View>
     );
@@ -34,11 +37,14 @@ export default connect(mapStateToProps, {})(CompletedTasks);
 
 const styles = {
   tasksContainer: {
-     paddingTop: 100,
      flex: 1,
      flexDirection: 'column',
-     justifyContent: 'flex-start',
      alignItems: 'center',
-     backgroundColor: '#ff7c54'
+     backgroundColor: '#F5F5F5'
+  },
+
+  backgroundImage: {
+    flex: 0.5,
+    width: 375
   }
 }

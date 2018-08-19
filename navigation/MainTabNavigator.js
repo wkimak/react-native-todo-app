@@ -11,17 +11,10 @@ const AuthStack = createStackNavigator({
   Login: LoginScreen
 });
 
-const AllTasksStack = createStackNavigator({
-  AllTasks: AllTasksScreen
-});
 
 const AppStack = createBottomTabNavigator({
   AllTasks: {
-    screen: AllTasksStack,
-    navigationOptions: ({ navigation }) => ({
-      tabBarLabel: 'All',
-      tabBarVisible: navigation.state.index === 1 ? false : true
-    })
+    screen: AllTasksScreen,
   },
 
   CompletedTasks: {
@@ -29,14 +22,28 @@ const AppStack = createBottomTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Completed'
     }
+  },
+  Sort: {
+    screen: CompletedTasksScreen
   } 
+}, {
+  tabBarOptions: {
+    style: {
+      backgroundColor: '#fff',
+      height: 30
+    },
+    labelStyle: {
+      color: '#f4511e',
+      fontSize: 12
+    }
+  }
 });
 
 export default createSwitchNavigator({
   Auth: AuthStack,
   App: AppStack
 }, {
-  initialRouteName: 'App'
+  initialRouteName: 'Auth'
 })
 
 

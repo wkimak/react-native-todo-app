@@ -12,6 +12,7 @@ const CompleteTaskItem = function({ description }) {
         }}
         checkedIcon='dot-circle-o'
         uncheckedIcon='circle-o'
+        checkedColor='#f4511e'
         checked={ true }
       />
       <View style={ styles.description }><Text>{ description }</Text></View>
@@ -23,7 +24,7 @@ export default CompleteTaskItem;
 
 const styles = {
   container: {
-    width: 350,
+    width: 375,
     height: 70,
     borderRadius: 3,
     flexDirection: 'row',

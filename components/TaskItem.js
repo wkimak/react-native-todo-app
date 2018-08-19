@@ -8,33 +8,34 @@ class TaskItem extends Component {
   
   state = {
     updatedText: this.props.description,
-    checked: false,
+    checked: this.props.isComplete,
     isEditing: false
   }
 
   handleCheckBox = () => {
     this.setState({ checked: !this.state.checked }, () => {
       if(this.state.checked) {
-        this.props.handleComplete(this.props.id);
+        this.props.completeTask(this.props.uid, this.props.id);
       } else {
-        this.props.handleUncomplete(this.props.id);
+        this.props.uncompleteTask(this.props.uid, this.props.id);
       }
     });
   } 
 
   handleSaveEdit = (update) => {
     this.setState({ isEditing: false }, () => {
-      this.props.handleSave({description: this.state.updatedText, id: this.props.id, complete: this.state.checked});
+      this.props.saveEdit(this.props.uid, {description: this.state.updatedText, id: this.props.id, complete: this.state.checked});
     })
   }
 
 
   render() {
     const { description, 
-            handleDelete, 
-            handleEdit,
-            handleSave, 
+            deleteTask, 
+            editTask,
+            saveEdit, 
             editIndex, 
+            uid,
             id } = this.props;
 
     
@@ -61,7 +62,7 @@ class TaskItem extends Component {
             :
             <Fragment>
               <View style={ styles.description }><Text>{ description }</Text></View>
-              <Icon name="remove" color='red' onPress={ () => handleDelete(id) } />
+              <Icon name="remove" color='red' onPress={ () => deleteTask(uid, id) } />
             </Fragment>
           }
       
@@ -78,7 +79,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#fff',
     padding: 10,
-    marginBottom: 1
+    marginBottom: 5,
+    borderBottomWidth: 0.3,
+    borderBottomColor: '#ff7c54'
   },
 
   description: {

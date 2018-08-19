@@ -1,58 +1,78 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Button, FlatList } from 'react-native';
+import { StyleSheet, View, Text, Button, FlatList, ImageBackground } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-import { addTask, deleteTask, editTask, saveEdit, completeTask, uncompleteTask } from '../redux/actions/taskActions';
+import { addTask, readTasks, deleteTask, editTask, saveEdit, completeTask, uncompleteTask } from '../redux/actions/taskActions';
 import TaskItem from '../components/TaskItem';
 import AddForm from '../components/AddForm';
 
 class AllTasks extends Component {
 
+  static navigationOptions = {
+    title: 'All',
+    headerStyle: {
+      backgroundColor: 'blue'
+    }
+  }
+
+  componentDidMount() {
+    this.props.readTasks(this.props.uid);
+  }
 
 
   render() {
     const { taskList, 
             editIndex, 
-            handleAdd,
-            handleDelete, 
-            handleEdit, 
-            handleSave, 
-            handleComplete, 
-            handleUncomplete } = this.props;
+            addTask,
+            deleteTask, 
+            editTask, 
+            saveEdit,
+            completeTask, 
+            uncompleteTask,
+            uid } = this.props;
+
 
     return (
       <View style={ styles.container }>
-        <AddForm handleAdd={ handleAdd } />
+       <ImageBackground source={ require('../assets/mountainview.jpeg') } style={styles.backgroundImage}>
+         <Text style={styles.welcome}> Hello {this.props.username}</Text>
+         <AddForm addTask={ addTask } uid={ uid } />
+       </ImageBackground>
+       
         <FlatList 
           data = { taskList.map((item, i) => {
             return (
-                     {
-                      key: item.id,
+                     {key: item.id,
                       id: item.id, 
+                      uid: uid,
                       description: item.description,
-                      handleEdit: handleEdit,
+                      isComplete: item.complete,
                       editIndex: editIndex,
-                      handleSave: handleSave,
-                      handleDelete: handleDelete,
-                      handleComplete: handleComplete,
-                      handleUncomplete: handleUncomplete}    
+                      editTask: editTask,
+                      saveEdit: saveEdit,
+                      deleteTask: deleteTask,
+                      completeTask: completeTask,
+                      uncompleteTask: uncompleteTask}    
              );
           })}
           renderItem={ ({ item }) => (
             <TaskItem
               key={item.key}
               id={item.id} 
+              uid={item.uid}
               description={item.description}
-              handleEdit={item.handleEdit}
+              isComplete={item.isComplete}
               editIndex={item.editIndex}
-              handleSave={item.handleSave}
-              handleDelete={item.handleDelete}
-              handleComplete={item.handleComplete}
-              handleUncomplete={item.handleUncomplete}
+              editTask={item.editTask}
+              saveEdit={item.saveEdit}
+              deleteTask={item.deleteTask}
+              completeTask={item.completeTask}
+              uncompleteTask={item.uncompleteTask}
              />
           )}
         />
+   
      </View>         
     );
   }
@@ -60,32 +80,16 @@ class AllTasks extends Component {
 
 const mapStateToProps = (state) => ({
   taskList: state.taskList.taskList,
-  editIndex: state.editIndex.editIndex
+  editIndex: state.editIndex.editIndex,
+  username: state.username.username,
+  uid: state.uid.uid
 });
 
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleAdd: (task) => {
-      dispatch(addTask(task))
-    },
-    handleDelete: (id) => {
-      dispatch(deleteTask(id));
-    },
-    handleEdit: (index) => {
-      dispatch(editTask(index));
-    },
-    handleSave: (task) => {
-      dispatch(saveEdit(task));
-    },
-    handleComplete: (id) => {
-      dispatch(completeTask(id))
-    },
-    handleUncomplete: (id) => {
-      dispatch(uncompleteTask(id));
-    }
-  }
+const mapDispatchToProps = {
+  addTask, deleteTask, editTask, 
+  saveEdit, completeTask, uncompleteTask, readTasks
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllTasks);
 
@@ -93,8 +97,18 @@ export default connect(mapStateToProps, mapDispatchToProps)(AllTasks);
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
-    backgroundColor: '#ff7c54',
-    marginBottom: 20
+    flex: 1,
+    backgroundColor: '#F5F5F5',
+  },
+  backgroundImage: {
+    flex: 0.5,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginBottom: 1
+  },
+  welcome: {
+    flex: 2,
+    fontSize: 24,
+    justifyContent: 'center'
   }
 })

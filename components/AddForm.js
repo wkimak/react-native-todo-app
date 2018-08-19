@@ -12,7 +12,7 @@ class AddForm extends Component {
   }
 
   render() {
-    const { handleAdd } = this.props;
+    const { addTask, uid } = this.props;
     return (
       <View style={styles.container}>
         <Icon name='ios-add' 
@@ -23,7 +23,7 @@ class AddForm extends Component {
         <TextInput placeholder='Add a to-do...' 
                    style={styles.input}
                    onChangeText={ (description) => this.setState({ description })} 
-                   onSubmitEditing={() => handleAdd({description: this.state.description, id: this.generateKey(), complete: false})}
+                   onSubmitEditing={() => addTask({description: this.state.description, id: this.generateKey(), complete: false, uid: uid})}
                    />
       </View>
     );
@@ -34,10 +34,9 @@ export default AddForm;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.1,
+    flex: 0.5,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#fff',
     marginBottom: 10
   },
