@@ -1,28 +1,30 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 
 class AddForm extends Component {
 
   state = { description: ''}
+
 
   generateKey() {
     return `${ new Date().getTime() }`;
   }
 
   render() {
-    const { handleSubmit } = this.props;
-
+    const { handleAdd } = this.props;
     return (
       <View style={styles.container}>
-        <TextInput placeholder='Description' 
-                   style={styles.description}
-                   multiline={ true } numberOfLines={4} 
-                   onChangeText={ (description) => this.setState({ description })} />
-
-        <TouchableOpacity style={styles.submit} 
-                          onPress={ () => handleSubmit({description: this.state.description, id: this.generateKey(), complete: false }) }>
-          <Text style={styles.btnTxt}>Submit</Text>
-        </TouchableOpacity> 
+        <Icon name='ios-add' 
+          size= {30} 
+          color='#f4511e'
+          style={ styles.plusIcon } 
+        /> 
+        <TextInput placeholder='Add a to-do...' 
+                   style={styles.input}
+                   onChangeText={ (description) => this.setState({ description })} 
+                   onSubmitEditing={() => handleAdd({description: this.state.description, id: this.generateKey(), complete: false})}
+                   />
       </View>
     );
   }
@@ -32,26 +34,25 @@ export default AddForm;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 150,
-    paddingLeft: 20,
-    paddingRight: 20
-  },
-  description: {
-    height: 100,
-    backgroundColor: 'white',
-    borderWidth: 1,
-    padding: 10
+    flex: 0.1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    marginBottom: 10
   },
 
-  submit: {
-    backgroundColor: '#f4511e',
-    marginTop: 30,
-    paddingTop: 15,
-    height: 50,
-    borderRadius: 10
+  input: {
+    flex: 1,
+    paddingTop: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+    paddingLeft: 0,
+    backgroundColor: '#fff'
   },
-  btnTxt: {
-    textAlign: 'center',
-    fontWeight: 'bold'
+
+  plusIcon: {
+    padding: 10
   }
+
 })

@@ -4,7 +4,6 @@ import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator }
 
 import LoginScreen from '../screens/LoginScreen';
 import AllTasksScreen from '../screens/AllTasksScreen';
-import AddTaskScreen from '../screens/AddTaskScreen';
 import CompletedTasksScreen from '../screens/CompletedTasksScreen';
 
 
@@ -13,8 +12,7 @@ const AuthStack = createStackNavigator({
 });
 
 const AllTasksStack = createStackNavigator({
-  AllTasks: AllTasksScreen,
-  AddTask: AddTaskScreen
+  AllTasks: AllTasksScreen
 });
 
 const AppStack = createBottomTabNavigator({
@@ -25,6 +23,7 @@ const AppStack = createBottomTabNavigator({
       tabBarVisible: navigation.state.index === 1 ? false : true
     })
   },
+
   CompletedTasks: {
     screen: CompletedTasksScreen,
     navigationOptions: {

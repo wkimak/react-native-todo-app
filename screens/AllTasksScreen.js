@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Text, Button, FlatList } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-import { deleteTask, editTask, saveEdit, completeTask, uncompleteTask } from '../redux/actions/taskActions';
+import { addTask, deleteTask, editTask, saveEdit, completeTask, uncompleteTask } from '../redux/actions/taskActions';
 import TaskItem from '../components/TaskItem';
+import AddForm from '../components/AddForm';
 
 class AllTasks extends Component {
+
+
 
   render() {
     const { taskList, 
             editIndex, 
+            handleAdd,
             handleDelete, 
             handleEdit, 
             handleSave, 
@@ -19,27 +23,36 @@ class AllTasks extends Component {
 
     return (
       <View style={ styles.container }>
-        <Icon name="add-circle" 
-          color='#f4511e' 
-          size={60} 
-          style={ styles.addIcon }
-          onPress={ () => this.props.navigation.navigate('AddTask')} />
-        <View style={styles.taskContainer}>
-          { taskList.length ? taskList.map((item, i) => {
+        <AddForm handleAdd={ handleAdd } />
+        <FlatList 
+          data = { taskList.map((item, i) => {
             return (
-              <TaskItem key={ i } 
-                      id={ item.id } 
-                      description={ item.description }
-                      handleEdit={ handleEdit }
-                      editIndex={ editIndex }
-                      handleSave={ handleSave }
-                      handleDelete={ handleDelete }
-                      handleComplete={ handleComplete }
-                      handleUncomplete={ handleUncomplete }
-                       />
-            );
-          }) : null }
-        </View>
+                     {
+                      key: item.id,
+                      id: item.id, 
+                      description: item.description,
+                      handleEdit: handleEdit,
+                      editIndex: editIndex,
+                      handleSave: handleSave,
+                      handleDelete: handleDelete,
+                      handleComplete: handleComplete,
+                      handleUncomplete: handleUncomplete}    
+             );
+          })}
+          renderItem={ ({ item }) => (
+            <TaskItem
+              key={item.key}
+              id={item.id} 
+              description={item.description}
+              handleEdit={item.handleEdit}
+              editIndex={item.editIndex}
+              handleSave={item.handleSave}
+              handleDelete={item.handleDelete}
+              handleComplete={item.handleComplete}
+              handleUncomplete={item.handleUncomplete}
+             />
+          )}
+        />
      </View>         
     );
   }
@@ -53,6 +66,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    handleAdd: (task) => {
+      dispatch(addTask(task))
+    },
     handleDelete: (id) => {
       dispatch(deleteTask(id));
     },
@@ -77,18 +93,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(AllTasks);
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%'
-  },
-
-  taskContainer: {
-    paddingTop: 50,
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-
-  addIcon: {
-    
+    height: '100%',
+    backgroundColor: '#ff7c54',
+    marginBottom: 20
   }
 })

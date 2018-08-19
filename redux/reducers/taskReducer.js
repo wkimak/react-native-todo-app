@@ -15,7 +15,6 @@ const taskReducer = (state = initialState, action) => {
       }
 
     case 'DELETE_TASK':
-
       for(let i = 0; i < state.taskList.length; i++) {
         if(state.taskList[i].id === action.payload) {
           return {
