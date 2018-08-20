@@ -23,12 +23,13 @@ class TaskItem extends Component {
   } 
 
   handleSaveEdit = (update) => {
-    this.setState({ isEditing: false }, () => {
-      this.props.saveEdit(this.props.uid, { description: this.state.updatedText, 
-                                            taskId: this.props.taskId, 
-                                            complete: this.state.checked,
-                                            priority: this.props.isPriority });
-    })
+    this.props.saveEdit(this.props.uid, { description: this.state.updatedText, 
+                                          taskId: this.props.taskId, 
+                                          complete: this.state.checked,
+                                          priority: this.props.isPriority }, () => {
+                                            //callback for action to call once saveEdit is complete
+                                            this.setState({ isEditing: false });
+                                          })
   }
 
 
@@ -40,6 +41,7 @@ class TaskItem extends Component {
             isPriority,
             uid,
             taskId } = this.props;
+   
     
       return (
         <TouchableOpacity style={ !isPriority ? styles.container : styles.priorityContainer } 
@@ -58,8 +60,8 @@ class TaskItem extends Component {
           />
           
           {this.state.isEditing ? 
-            <TextInput style={styles.editingDescription} 
-                       value={ description } 
+            <TextInput style={ styles.editingDescription } 
+                       value={ this.state.updatedText } 
                        onChangeText={ (updatedText) => this.setState({ updatedText }) }
                        onSubmitEditing={() => this.handleSaveEdit() }
                         />

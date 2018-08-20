@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
-import { READ_TASKS, 
+import { READ_TASKS_DATE,
+         READ_TASKS_PRIORITY, 
          DELETE_TASK, 
          EDIT_TASK, 
          SAVE_EDIT, 
@@ -10,7 +11,6 @@ import { READ_TASKS,
 
 
 export const addTask = (uid, task) => (dispatch) => {
-  console.log('tassk', task);
   firebase.database().ref(`/userTasks/${uid}/${task.taskId}`).set(
     {
       description: task.description,
@@ -27,17 +27,16 @@ export const readTasks = (uid, sortType) => (dispatch) => {
   var ref2 = firebase.database().ref(`/userTasks/${uid}`);
 
   if(sortType === 'date') {
-
     ref2.off(); // end .on() trigger for 'priority' sorting once 'date' sorting is clicked
     dispatch({ type: RESET_TASKLIST }) // reset taskList, so we do not get duplicate keys
     ref1.on('child_added', (snapshot) => {
-      dispatch({ type: READ_TASKS, payload: snapshot.val() })
+      dispatch({ type: READ_TASKS_DATE, payload: snapshot.val() })
     })
   } else if(sortType === 'priority') {
       ref1.off(); // end .on() trigger for 'date' sorting once 'priority' sorting is clicked
       dispatch({ type: RESET_TASKLIST })
       ref2.orderByChild('priority').on('child_added', (snapshot) => {
-        dispatch({ type: READ_TASKS, payload: snapshot.val()})
+        dispatch({ type: READ_TASKS_PRIORITY, payload: snapshot.val()})
       }); 
   }
 }
@@ -53,7 +52,7 @@ export const editTask = (uid, taskId) => (dispatch) => {
   dispatch({type: EDIT_TASK, payload: taskId})
 }
 
-export const saveEdit = (uid, task) => (dispatch) => {
+export const saveEdit = (uid, task, callback) => (dispatch) => {
   firebase.database().ref(`userTasks/${uid}/${task.taskId}`).update({
      description: task.description
   }).then(() => {
@@ -61,7 +60,10 @@ export const saveEdit = (uid, task) => (dispatch) => {
                                            taskId: task.taskId, 
                                            complete: task.complete, 
                                            priority: task.priority } 
+
     });
+      // set internal isEditing state to false
+      callback();
   })
 }
 

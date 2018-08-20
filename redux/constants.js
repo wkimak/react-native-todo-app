@@ -1,5 +1,6 @@
 // Action Types
-export const READ_TASKS = 'READ_TASKS';
+export const READ_TASKS_DATE = 'READ_TASKS_DATE';
+export const READ_TASKS_PRIORITY = 'READ_TASKS_PRIORITY';
 export const DELETE_TASK = 'DELETE_TASK';
 export const EDIT_TASK = 'EDIT_TASK';
 export const SAVE_EDIT = 'SAVE_EDIT';

@@ -13,10 +13,16 @@ const taskReducer = (state = initialState, action) => {
       }
    
     // This case is called continously, as the firebase .on method is triggered for every task added
-    case 'READ_TASKS':
+    case 'READ_TASKS_DATE':
       return {
         ...state,
         taskList: [...state.taskList, action.payload]
+      }
+
+    case 'READ_TASKS_PRIORITY':
+      return {
+        ...state,
+        taskList: [action.payload, ...state.taskList]
       }
 
     case 'DELETE_TASK':
