@@ -1,43 +1,45 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+// showModal - indicator is Modal is open or not (true/false)
+// toggleModal - redux Action to acutally toggle state
 
-class SortModal extends Component {
+
+
+const SortModal = function({ uid, toggleModal, showModal, readTasks }) {
   
   // function to send 'date' and 'priority' sorting opton to redux Actions.
   // Also, toggle Modal closed on select
-  handleSort = (sortType) => {
-    this.props.toggleModal();
+  const handleSort = (sortType) => {
+    toggleModal();
     if(sortType === 'date') {
-      this.props.readTasks(this.props.uid, 'date');
+      readTasks(uid, 'date');
     } else {
-      this.props.readTasks(this.props.uid, 'priority');
+      readTasks(uid, 'priority');
     }
     
   }
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.props.showModal}
-        >
-       
-          <View style={styles.innerContainer}>
-            <TouchableOpacity onPress={ () => this.handleSort('date') } style={styles.sortOption}>
-              <Text style={styles.text}>Sort By Date</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={ () => this.handleSort('priority') } style={styles.sortOption}>
-              <Text style={styles.text}>Sort By Priority</Text>
-            </TouchableOpacity>
-          </View>
-      
-        </Modal>
-      </View>
-    );
-  }
+  return (
+    <View style={styles.container}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={ showModal }
+      >
+     
+        <View style={styles.innerContainer}>
+          <TouchableOpacity onPress={ () => handleSort('date') } style={styles.sortOption}>
+            <Text style={styles.text}>Sort By Date</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={ () => handleSort('priority') } style={styles.sortOption}>
+            <Text style={styles.text}>Sort By Priority</Text>
+          </TouchableOpacity>
+        </View>
+    
+      </Modal>
+    </View>
+  );
 }
 
 export default SortModal;

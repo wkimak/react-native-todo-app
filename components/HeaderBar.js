@@ -24,7 +24,7 @@ const HeaderBar = function(props) {
       backgroundColor='#f5f5f5'
       outerContainerStyles={{ height: 85}}
       leftComponent={props.onAllTasksScreen ? { icon: 'sort', color: 'black', onPress: () => props.toggleModal() } : null}
-      centerComponent={{ text: 'Sign Out', style: {color: 'black', left: 135}, onPress: () => handleSignOut() }}
+      centerComponent={{ text: 'Sign Out', style: {fontFamily: 'Avenir', color: 'black', left: 135}, onPress: () => handleSignOut() }}
     />
   );
 }

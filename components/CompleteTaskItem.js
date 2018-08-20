@@ -16,7 +16,7 @@ const CompleteTaskItem = function({ description }) {
         checkedColor='#f4511e'
         checked={ true }
       />
-      <View style={ styles.description }><Text>{ description }</Text></View>
+      <View style={ styles.description }><Text style={ styles.taskText }>{ description }</Text></View>
     </View>
   );
 }
@@ -39,6 +39,10 @@ const styles = {
     flex: 1,
     justifyContent: 'center',
     paddingLeft: 10
+  },
+
+  taskText: {
+    fontFamily: 'Avenir-Medium'
   }
 
 }

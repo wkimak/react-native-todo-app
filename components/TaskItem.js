@@ -26,7 +26,8 @@ class TaskItem extends Component {
     this.setState({ isEditing: false }, () => {
       this.props.saveEdit(this.props.uid, { description: this.state.updatedText, 
                                             taskId: this.props.taskId, 
-                                            complete: this.state.checked });
+                                            complete: this.state.checked,
+                                            priority: this.props.isPriority });
     })
   }
 
@@ -57,14 +58,14 @@ class TaskItem extends Component {
           />
           
           {this.state.isEditing ? 
-            <TextInput style={styles.description} 
+            <TextInput style={styles.editingDescription} 
                        value={ description } 
                        onChangeText={ (updatedText) => this.setState({ updatedText }) }
                        onSubmitEditing={() => this.handleSaveEdit() }
                         />
             :
             <Fragment>
-              <View style={ styles.description }><Text>{ description }</Text></View>
+              <View style={ styles.description }><Text style={styles.taskText}>{ description }</Text></View>
               <Icon name="remove" color='red' onPress={ () => deleteTask(uid, taskId) } />
             </Fragment>
           }
@@ -102,6 +103,16 @@ const styles = StyleSheet.create({
   description: {
     flex: 1,
     justifyContent: 'center'
+  },
+
+  editingDescription: {
+    flex: 1,
+    justifyContent: 'center',
+    fontStyle: 'italic'
+  },
+
+  taskText: {
+    fontFamily: 'Avenir-Medium',
   },
 
   edit: {

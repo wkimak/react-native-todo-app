@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import { StyleSheet, View, Text, Image, ImageBackground } from 'react-native';
 import { Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 
 import { firebaseConfig } from '../config';
@@ -62,12 +61,6 @@ class Login extends Component {
               <Image style={ styles.CompletedTasks } source={require('../assets/CompletedTasks.png')} />
             </View>
             <Button 
-              icon={ 
-                <Icon name='facebook-square' 
-                  size= {30} 
-                  color='white' 
-                /> 
-              } 
               onPress={ () => this.logIn() }
               title='Facebook Login'
               buttonStyle={{
@@ -75,7 +68,10 @@ class Login extends Component {
                 width: 300,
                 height: 70,
                 borderRadius: 5,
-                marginBottom: 30
+                marginBottom: 30,
+              }}
+              titleStyle={{
+                fontFamily: 'Avenir'
               }}
             />
           </View>
@@ -117,9 +113,11 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 32,
+    fontSize: 28,
+    marginTop: 50,
     marginRight: 50,
-    marginLeft: 20
+    marginLeft: 20,
+    fontFamily: 'Avenir'
   },
 
   logo: {
@@ -133,10 +131,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around'
   },
+
   allTasks: {
     alignSelf: 'flex-start',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
+
   CompletedTasks: {
     marginTop: 50
   }

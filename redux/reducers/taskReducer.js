@@ -24,6 +24,7 @@ const taskReducer = (state = initialState, action) => {
         if(state.taskList[i].taskId === action.payload) {
           return {
             ...state,
+            // instead of mutating, slice array in to two, join together without deleted task
             taskList: [
               ...state.taskList.slice(0, i),
               ...state.taskList.slice(i + 1)
@@ -35,11 +36,14 @@ const taskReducer = (state = initialState, action) => {
     case 'SAVE_EDIT':
       return {
         ...state,
+        // map through taskList, if task id equals payload id, update task object
         taskList: state.taskList.map((task, i) => {
             if(action.payload.taskId === task.taskId) {
               task = { description: action.payload.description, 
                        taskId: action.payload.taskId, 
-                       complete: action.payload.complete }
+                       complete: action.payload.complete,
+                       priority: action.payload.priority
+                      }
             }
             return task;
         })
@@ -48,6 +52,7 @@ const taskReducer = (state = initialState, action) => {
      case 'COMPLETE_TASK':
        return {
          ...state,
+         // just update the complete key if ids match
          taskList: state.taskList.map((task) => {
            if(action.payload === task.taskId) {
              task = { ...task, complete: true }
@@ -58,6 +63,7 @@ const taskReducer = (state = initialState, action) => {
 
      case 'UNCOMPLETE_TASK':
        return {
+        // Again, just update the complete key if ids match
         taskList: state.taskList.map((task) => {
           if(action.payload === task.taskId) {
             task = { ...task, complete: false }

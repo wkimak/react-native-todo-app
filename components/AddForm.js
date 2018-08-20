@@ -5,14 +5,25 @@ import { StyleSheet, View, Text, TextInput } from 'react-native';
 
 class AddForm extends Component {
 
-  state = { description: '', isPriority: false}
-
+  state = { description: '', isPriority: false }
+  
+  // generates taskId. This id is used to store task entries into firebase
+  // This id is also used to sort by date
   generateKey() {
     return `${ new Date().getTime() }`;
   }
 
+  handleSubmit = () => {
+    if(this.state.description !== '') {
+      this.props.addTask(this.props.uid, { description: this.state.description, 
+                     taskId: this.generateKey(), 
+                     complete: false, 
+                     priority: this.state.isPriority })
+      this.setState({ description: '' })
+    }
+  }
+
   render() {
-    const { addTask, uid } = this.props;
     return (
       <View style={styles.container}>
         <Icon name='ios-add' 
@@ -23,7 +34,8 @@ class AddForm extends Component {
         <TextInput placeholder='Add a to-do...' 
                    style={styles.input}
                    onChangeText={ (description) => this.setState({ description })} 
-                   onSubmitEditing={() => addTask(uid, {description: this.state.description, taskId: this.generateKey(), complete: false, priority: this.state.isPriority })}
+                   onSubmitEditing={() => this.handleSubmit() }
+                   value={ this.state.description }
                    />
         <CheckBox
           containerStyle={{
@@ -31,7 +43,7 @@ class AddForm extends Component {
             width: 40,
             borderWidth: 0,
             height: 60,
-            marginTop: 8
+            marginTop: 5,
           }}
           checkedIcon='star'
           uncheckedIcon='star-o'
@@ -65,7 +77,8 @@ const styles = StyleSheet.create({
   },
 
   plusIcon: {
-    padding: 10
+    padding: 10,
+    bottom: 2
   }
 
 })

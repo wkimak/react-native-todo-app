@@ -9,10 +9,10 @@ import BackgroundPhoto from '../components/BackgroundPhoto';
 
 class CompletedTasks extends Component {
   render() {
-    const { taskList } = this.props;
+    const { taskList, navigation } = this.props;
     return (
       <View style={ styles.tasksContainer }>
-      <HeaderBar />
+      <HeaderBar navigation={ navigation }/>
       <BackgroundPhoto />
     
       <FlatList

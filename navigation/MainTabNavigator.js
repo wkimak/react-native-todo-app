@@ -38,6 +38,7 @@ const AppStack = createBottomTabNavigator({
     labelStyle: {
       color: '#f4511e',
       fontSize: 14,
+      fontFamily: 'Avenir'
     },
 
     tabStyle: {
