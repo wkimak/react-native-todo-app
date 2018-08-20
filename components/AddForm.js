@@ -41,9 +41,11 @@ class AddForm extends Component {
           containerStyle={{
             backgroundColor:'transparent',
             width: 40,
+            height: 50,
             borderWidth: 0,
-            height: 60
+            justifyContent: 'center'
           }}
+
           checkedIcon='star'
           uncheckedIcon='star-o'
           checkedColor='#f4511e'
@@ -63,7 +65,8 @@ const styles = StyleSheet.create({
     flex: 0.6,
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    alignItems: 'center'
   },
 
   input: {

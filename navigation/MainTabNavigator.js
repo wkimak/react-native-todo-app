@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, Dimensions } from 'react-native';
 import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import { BottomTabBar } from 'react-navigation-tabs';
 
@@ -9,6 +9,14 @@ import AllTasksScreen from '../screens/AllTasksScreen';
 import CompletedTasksScreen from '../screens/CompletedTasksScreen';
 import SortModal from '../components/SortModal';
 
+
+const height = Dimensions.get('window').height;
+// change bottom tab bar height, depending on height
+if(height < 680) {
+  var tabHeight = 60;
+} else {
+  tabHeight = 30;
+}
 
 // Login screen
 const AuthStack = createStackNavigator({
@@ -32,7 +40,7 @@ const AppStack = createBottomTabNavigator({
   tabBarOptions: {
     style: {
       backgroundColor: '#fff',
-      height: 30,
+      height: tabHeight,
     },
 
     labelStyle: {

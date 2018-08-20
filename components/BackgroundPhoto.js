@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, ImageBackground } from 'react-native';
+import { StyleSheet, View, Text, ImageBackground } from 'react-native';
 
 // These are the background images displayed on AllTasks and Completed Tasks screens
 const BackgroundPhoto = function({ addTask, uid, children }) {

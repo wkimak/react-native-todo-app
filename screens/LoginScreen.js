@@ -56,10 +56,6 @@ class Login extends Component {
       <View style={ styles.backgroundImage }>
         <View style={ styles.container }>
             <Text style={ styles.text }>Welcome to William's To-Do App</Text>
-            <View style={ styles.imageContainer }>
-              <Image style={ styles.allTasks } source={require('../assets/AllTasks.png')} />
-              <Image style={ styles.CompletedTasks } source={require('../assets/CompletedTasks.png')} />
-            </View>
             <Button 
               onPress={ () => this.logIn() }
               title='Facebook Login'
@@ -68,13 +64,19 @@ class Login extends Component {
                 width: 300,
                 height: 70,
                 borderRadius: 5,
-                marginBottom: 30,
-                marginTop: 10
+                shadowOffset:{  width: 1,  height: 2,  },
+                shadowColor: 'black',
+                shadowOpacity: 0.5,
               }}
               titleStyle={{
                 fontFamily: 'Avenir'
               }}
             />
+            <View style={ styles.imageContainer }>
+              <Image style={ styles.allTasks } source={require('../assets/AllTasks.png')} />
+              <Image style={ styles.CompletedTasks } source={require('../assets/CompletedTasks.png')} />
+            </View>
+            
           </View>
       </View>
     );
@@ -110,14 +112,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
     paddingTop: 20,
     paddingBottom: 20,
-    opacity: 1
+    opacity: 1.0
   },
 
   text: {
-    fontSize: 28,
+    fontSize: 30,
     marginRight: 50,
     marginLeft: 20,
-    fontFamily: 'Avenir'
+    fontFamily: 'Avenir',
+    top: 20
   },
 
   logo: {
@@ -129,16 +132,23 @@ const styles = StyleSheet.create({
 
   imageContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    shadowOffset:{  width: 2,  height: 5,  },
+    shadowColor: 'black',
+    shadowOpacity: 0.6,
+    bottom: 30,
+    marginTop: 20
   },
 
   allTasks: {
     alignSelf: 'flex-start',
     justifyContent: 'center',
+    borderRadius: 10
   },
 
   CompletedTasks: {
-    marginTop: 50
+    marginTop: 50,
+    borderRadius: 5
   }
 
 })
