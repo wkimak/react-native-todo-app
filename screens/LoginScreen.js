@@ -69,6 +69,7 @@ class Login extends Component {
                 height: 70,
                 borderRadius: 5,
                 marginBottom: 30,
+                marginTop: 10
               }}
               titleStyle={{
                 fontFamily: 'Avenir'
@@ -114,7 +115,6 @@ const styles = StyleSheet.create({
 
   text: {
     fontSize: 28,
-    marginTop: 50,
     marginRight: 50,
     marginLeft: 20,
     fontFamily: 'Avenir'

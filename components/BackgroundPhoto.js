@@ -17,14 +17,14 @@ export default BackgroundPhoto;
 
 const styles = StyleSheet.create({
   backgroundImage: {
-    flex: 0.65,
+    flex: 0.45,
     flexDirection: 'column',
     justifyContent: 'center',
     marginBottom: 1
   },
 
   backgroundImage2: {
-    flex: 0.5,
+    flex: 0.35,
     flexDirection: 'column',
     justifyContent: 'center',
     marginBottom: 1
