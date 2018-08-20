@@ -5,10 +5,11 @@ import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Entypo';
 import { connect } from 'react-redux';
 
-import { addTask, readTasks, deleteTask, editTask, saveEdit, completeTask, uncompleteTask } from '../redux/actions/taskActions';
+import { addTask, readTasks, deleteTask, editTask, saveEdit, completeTask, uncompleteTask, toggleModal } from '../redux/actions/taskActions';
 import TaskItem from '../components/TaskItem';
 import AddForm from '../components/AddForm';
 import SortModal from '../components/SortModal';
+import HeaderBar from '../components/HeaderBar';
 
 class AllTasks extends Component {
 
@@ -20,36 +21,35 @@ class AllTasks extends Component {
   }
 
   componentDidMount() {
-    this.props.readTasks(this.props.uid);
+    this.props.readTasks(this.props.uid, 'date');
   }
-
-  handleSignOut = async () => {
-      await AsyncStorage.clear();
-      this.props.navigation.navigate('Auth');
-      //<Icon name='log-out' size={40} onPress={() => this.handleSignOut() } />
-   }
-
 
   render() {
     const { navigation,
             taskList, 
             editIndex, 
             addTask,
+            readTasks,
             deleteTask, 
             editTask, 
             saveEdit,
             completeTask, 
             uncompleteTask,
+            toggleModal,
+            showModal,
             uid } = this.props;
 
 
     return (
       <View style={ styles.container }>
+        <HeaderBar navigation={ navigation } onAllTasksScreen={ true } toggleModal={ toggleModal } />
+        <SortModal uid={uid} readTasks={ readTasks } toggleModal={ toggleModal } showModal={ showModal }/>
         <ImageBackground source={ require('../assets/mountainview.jpeg') } style={styles.backgroundImage}>
-          <Text style={styles.welcome}> Hello {this.props.username}</Text>
+          <View style={styles.whiteOverlay}></View>
           <AddForm addTask={ addTask } uid={ uid } />
         </ImageBackground>
-        <SortModal />
+
+        
        
         <FlatList 
           data = { taskList.map((item, i) => {
@@ -95,12 +95,14 @@ const mapStateToProps = (state) => ({
   taskList: state.taskList.taskList,
   editIndex: state.editIndex.editIndex,
   username: state.username.username,
-  uid: state.uid.uid
+  uid: state.uid.uid,
+  showModal: state.toggleModal.toggleModal
 });
 
 const mapDispatchToProps = {
   addTask, deleteTask, editTask, 
-  saveEdit, completeTask, uncompleteTask, readTasks
+  saveEdit, completeTask, uncompleteTask,
+  readTasks, toggleModal
 }
 
 
@@ -113,15 +115,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5F5F5',
   },
+
   backgroundImage: {
-    flex: 0.5,
+    flex: 0.65,
     flexDirection: 'column',
     justifyContent: 'center',
     marginBottom: 1
   },
-  welcome: {
+
+  whiteOverlay: {
     flex: 2,
-    fontSize: 24,
-    justifyContent: 'center'
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.4)'
   }
 })

@@ -2,30 +2,39 @@
 
 const initialState = {
   taskList: [],
-  editIndex: null
+  editIndex: null,
+  toggleModal: false
 }
 
-const taskReducer = (state = initialState, action) => {
+const modalReducer = (state = initialState, action) => {
   switch(action.type) {
 
-    case 'ADD_TASK':
+    case 'TOGGLE_MODAL':
       return {
         ...state,
-        taskList: [...state.taskList, {description: action.payload.description, id: action.payload.id, complete: action.payload.complete, priority: action.payload.priority }]
+        toggleModal: !state.toggleModal
+      }
+    default:
+      return state;
+  }
+}
+
+
+const taskReducer = (state = initialState, action) => {
+
+  switch(action.type) {
+
+    case 'RESET_TASKLIST':
+      return {
+        ...state,
+        taskList: []
       }
 
     case 'READ_TASKS':
-   
-      const obj = action.payload;
-      const copy = [];
 
-      for(let key in obj) {
-        copy.push(obj[key]);
-      }
-      
       return {
         ...state,
-        taskList: copy
+        taskList: [...state.taskList, action.payload]
       }
 
     case 'DELETE_TASK':
@@ -85,4 +94,4 @@ const taskReducer = (state = initialState, action) => {
   }
 }
 
-export default { taskReducer };
+export default { taskReducer, modalReducer };

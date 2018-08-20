@@ -17,7 +17,7 @@ class AddForm extends Component {
     return (
       <View style={styles.container}>
         <Icon name='ios-add' 
-          size= {30} 
+          size= {35} 
           color='#f4511e'
           style={ styles.plusIcon } 
         /> 
@@ -31,7 +31,8 @@ class AddForm extends Component {
             backgroundColor:'transparent',
             width: 40,
             borderWidth: 0,
-            height: 60
+            height: 60,
+            marginTop: 8
           }}
           checkedIcon='star'
           uncheckedIcon='star-o'
@@ -54,8 +55,7 @@ const styles = StyleSheet.create({
     flex: 0.5,
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: '#fff',
-    marginBottom: 10,
+    backgroundColor: '#fff'
   },
 
   input: {

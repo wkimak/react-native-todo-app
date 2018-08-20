@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, Button, FlatList, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
+import HeaderBar from '../components/HeaderBar';
 
 import CompleteTaskItem from '../components/CompleteTaskItem';
 
@@ -9,8 +10,9 @@ class CompletedTasks extends Component {
     const { taskList } = this.props;
     return (
       <View style={ styles.tasksContainer }>
+      <HeaderBar />
       <ImageBackground source={ require('../assets/nightsky.jpeg') } style={styles.backgroundImage}>
-        <Text> Completed </Text>
+        <View style={styles.whiteOverlay}></View>
       </ImageBackground>
     
       <FlatList
@@ -30,7 +32,8 @@ class CompletedTasks extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  taskList: state.taskList.taskList
+  taskList: state.taskList.taskList,
+
 })
 
 export default connect(mapStateToProps, {})(CompletedTasks);
@@ -44,5 +47,11 @@ const styles = {
   backgroundImage: {
     flex: 0.5,
     width: 375
+  },
+  whiteOverlay: {
+    flex: 2,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.2)'
   }
 }

@@ -56,12 +56,21 @@ const AppStack = createBottomTabNavigator({
   tabBarOptions: {
     style: {
       backgroundColor: '#fff',
-      height: 30
+      height: 30,
     },
+
     labelStyle: {
       color: '#f4511e',
-      fontSize: 12
-    }
+      fontSize: 14,
+    },
+
+    tabStyle: {
+     height: 60,
+     paddingBottom: 20
+    },
+
+    activeBackgroundColor: '#f5f5f5',
+    activeTintColor: 'blue'
   }
 });
 

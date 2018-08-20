@@ -52,7 +52,13 @@ class Login extends Component {
   render() {
     return (
       <View style={styles.backgroundImage}>
+
         <View style={ styles.container }>
+            <Text style={styles.text}>Welcome to William's To-Do App</Text>
+            <View style={styles.imageContainer}>
+              <Image style={styles.allTasks} source={require('../assets/AllTasks.png')} />
+              <Image style={styles.CompletedTasks} source={require('../assets/CompletedTasks.png')} />
+            </View>
             <Button 
               icon={ 
                 <Icon name='facebook-square' 
@@ -95,17 +101,43 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     paddingTop: 20,
     paddingBottom: 20,
-    backgroundColor: '#3b5998',
+    backgroundColor: '#3b5998'
   },
 
   container:{
     flex: 1,
+    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#F5F5F5',
     paddingTop: 20,
     paddingBottom: 20,
-    opacity: 0.95,
-    justifyContent: 'flex-end'
+    opacity: 1
+  },
+
+  text: {
+    fontSize: 32,
+  
+    marginRight: 50,
+    marginLeft: 20
+  },
+
+  logo: {
+    height: 100,
+    width: 100,
+    alignSelf: 'flex-end',
+    marginRight: 20
+  },
+
+  imageContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+  allTasks: {
+    alignSelf: 'flex-start',
+    justifyContent: 'center'
+  },
+  CompletedTasks: {
+    marginTop: 50
   }
 
 })
