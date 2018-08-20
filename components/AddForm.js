@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { CheckBox } from 'react-native-elements';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Keyboard } from 'react-native';
+import { StyleSheet, View, Text, TextInput } from 'react-native';
 
 class AddForm extends Component {
 
   state = { description: '', isPriority: false}
-
 
   generateKey() {
     return `${ new Date().getTime() }`;
@@ -24,7 +23,7 @@ class AddForm extends Component {
         <TextInput placeholder='Add a to-do...' 
                    style={styles.input}
                    onChangeText={ (description) => this.setState({ description })} 
-                   onSubmitEditing={() => addTask(uid, {description: this.state.description, id: this.generateKey(), complete: false, priority: this.state.isPriority })}
+                   onSubmitEditing={() => addTask(uid, {description: this.state.description, taskId: this.generateKey(), complete: false, priority: this.state.isPriority })}
                    />
         <CheckBox
           containerStyle={{
@@ -40,8 +39,6 @@ class AddForm extends Component {
           checked={ this.state.isPriority }
           onPress={ () => this.setState({ isPriority: !this.state.isPriority }) } 
         />
-
-        
 
       </View>
     );

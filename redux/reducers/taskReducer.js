@@ -1,37 +1,19 @@
-
-
 const initialState = {
-  taskList: [],
-  editIndex: null,
-  toggleModal: false
+  taskList: []
 }
 
-const modalReducer = (state = initialState, action) => {
-  switch(action.type) {
-
-    case 'TOGGLE_MODAL':
-      return {
-        ...state,
-        toggleModal: !state.toggleModal
-      }
-    default:
-      return state;
-  }
-}
-
-
+// handle all Actions related to tasks
 const taskReducer = (state = initialState, action) => {
-
   switch(action.type) {
-
+    // reset Tasklist, so everytime a user sorts tasks, taskList will start from clean slate
     case 'RESET_TASKLIST':
       return {
         ...state,
         taskList: []
       }
-
+   
+    // This case is called continously, as the firebase .on method is triggered for every task added
     case 'READ_TASKS':
-
       return {
         ...state,
         taskList: [...state.taskList, action.payload]
@@ -39,7 +21,7 @@ const taskReducer = (state = initialState, action) => {
 
     case 'DELETE_TASK':
       for(let i = 0; i < state.taskList.length; i++) {
-        if(state.taskList[i].id === action.payload) {
+        if(state.taskList[i].taskId === action.payload) {
           return {
             ...state,
             taskList: [
@@ -49,30 +31,25 @@ const taskReducer = (state = initialState, action) => {
           }
         }
       }
-
-    case 'EDIT_TASK':
-      return {
-        ...state,
-        editIndex: action.payload
-      }
-
+    
     case 'SAVE_EDIT':
       return {
         ...state,
         taskList: state.taskList.map((task, i) => {
-            if(action.payload.id === task.id) {
-              task = { description: action.payload.description, id: action.payload.id, complete: action.payload.complete }
+            if(action.payload.taskId === task.taskId) {
+              task = { description: action.payload.description, 
+                       taskId: action.payload.taskId, 
+                       complete: action.payload.complete }
             }
             return task;
-        }),
-        editIndex: null
+        })
       }
      
      case 'COMPLETE_TASK':
        return {
          ...state,
          taskList: state.taskList.map((task) => {
-           if(action.payload === task.id) {
+           if(action.payload === task.taskId) {
              task = { ...task, complete: true }
            }
            return task;
@@ -82,7 +59,7 @@ const taskReducer = (state = initialState, action) => {
      case 'UNCOMPLETE_TASK':
        return {
         taskList: state.taskList.map((task) => {
-          if(action.payload === task.id) {
+          if(action.payload === task.taskId) {
             task = { ...task, complete: false }
           }
           return task;
@@ -94,4 +71,4 @@ const taskReducer = (state = initialState, action) => {
   }
 }
 
-export default { taskReducer, modalReducer };
+export default { taskReducer };

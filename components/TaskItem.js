@@ -15,16 +15,18 @@ class TaskItem extends Component {
   handleCheckBox = () => {
     this.setState({ checked: !this.state.checked }, () => {
       if(this.state.checked) {
-        this.props.completeTask(this.props.uid, this.props.id);
+        this.props.completeTask(this.props.uid, this.props.taskId);
       } else {
-        this.props.uncompleteTask(this.props.uid, this.props.id);
+        this.props.uncompleteTask(this.props.uid, this.props.taskId);
       }
     });
   } 
 
   handleSaveEdit = (update) => {
     this.setState({ isEditing: false }, () => {
-      this.props.saveEdit(this.props.uid, {description: this.state.updatedText, id: this.props.id, complete: this.state.checked});
+      this.props.saveEdit(this.props.uid, { description: this.state.updatedText, 
+                                            taskId: this.props.taskId, 
+                                            complete: this.state.checked });
     })
   }
 
@@ -33,15 +35,14 @@ class TaskItem extends Component {
     const { description, 
             deleteTask, 
             editTask,
-            saveEdit, 
-            editIndex, 
+            saveEdit,  
             isPriority,
             uid,
-            id } = this.props;
-
+            taskId } = this.props;
     
       return (
-        <TouchableOpacity style={ !isPriority ? styles.container : styles.priorityContainer } onPress={ () => {!this.state.isEditing ? this.setState({ isEditing: true }) : this.handleSaveEdit()} }>
+        <TouchableOpacity style={ !isPriority ? styles.container : styles.priorityContainer } 
+                          onPress={ () => {!this.state.isEditing ? this.setState({ isEditing: true }) : this.handleSaveEdit()} }>
           <CheckBox
             containerStyle={{
               backgroundColor:'transparent',
@@ -54,7 +55,7 @@ class TaskItem extends Component {
             checked={ this.state.checked }
             onPress={ () => this.handleCheckBox() } 
           />
-     
+          
           {this.state.isEditing ? 
             <TextInput style={styles.description} 
                        value={ description } 
@@ -64,7 +65,7 @@ class TaskItem extends Component {
             :
             <Fragment>
               <View style={ styles.description }><Text>{ description }</Text></View>
-              <Icon name="remove" color='red' onPress={ () => deleteTask(uid, id) } />
+              <Icon name="remove" color='red' onPress={ () => deleteTask(uid, taskId) } />
             </Fragment>
           }
       

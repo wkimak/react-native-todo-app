@@ -1,19 +1,20 @@
-export const READ_TASKS = 'READ_TASKS';
-export const DELETE_TASK = 'DELETE_TASK';
-export const EDIT_TASK = 'EDIT_TASK';
-export const SAVE_EDIT = 'SAVE_EDIT';
-export const COMPLETE_TASK = 'COMPLETE_TASK';
-export const UNCOMPLETE_TASK = 'UNCOMPLETE_TASK';
-export const RESET_TASKLIST = 'RESET_TASKLIST';
-export const TOGGLE_MODAL = 'TOGGLE_MODAL';
-
 import * as firebase from 'firebase';
+import { READ_TASKS, 
+         DELETE_TASK, 
+         EDIT_TASK, 
+         SAVE_EDIT, 
+         COMPLETE_TASK, 
+         UNCOMPLETE_TASK, 
+         RESET_TASKLIST, 
+         TOGGLE_MODAL } from '../constants';
+
 
 export const addTask = (uid, task) => (dispatch) => {
-  firebase.database().ref(`/userTasks/${uid}/${task.id}`).set(
+  console.log('tassk', task);
+  firebase.database().ref(`/userTasks/${uid}/${task.taskId}`).set(
     {
       description: task.description,
-      id: task.id,
+      taskId: task.taskId,
       complete: task.complete,
       priority: task.priority
     }).catch((err)=> {
@@ -22,57 +23,61 @@ export const addTask = (uid, task) => (dispatch) => {
 }
 
 export const readTasks = (uid, sortType) => (dispatch) => {
-   var ref1 = firebase.database().ref(`/userTasks/${uid}`).orderByKey();
-   var ref2 = firebase.database().ref(`/userTasks/${uid}`);
-   console.log(uid, sortType);
+  var ref1 = firebase.database().ref(`/userTasks/${uid}`).orderByKey();
+  var ref2 = firebase.database().ref(`/userTasks/${uid}`);
+
   if(sortType === 'date') {
-      ref2.off();
-      dispatch({ type: RESET_TASKLIST })
-     ref1.on('child_added', (snapshot) => {
+
+    ref2.off(); // end .on() trigger for 'priority' sorting once 'date' sorting is clicked
+    dispatch({ type: RESET_TASKLIST }) // reset taskList, so we do not get duplicate keys
+    ref1.on('child_added', (snapshot) => {
       dispatch({ type: READ_TASKS, payload: snapshot.val() })
     })
   } else if(sortType === 'priority') {
-    ref1.off(); 
-     dispatch({ type: RESET_TASKLIST })
-    ref2.orderByChild('priority').on('child_added', (snapshot) => {
-      dispatch({ type: READ_TASKS, payload: snapshot.val()})
-    }); 
+      ref1.off(); // end .on() trigger for 'date' sorting once 'priority' sorting is clicked
+      dispatch({ type: RESET_TASKLIST })
+      ref2.orderByChild('priority').on('child_added', (snapshot) => {
+        dispatch({ type: READ_TASKS, payload: snapshot.val()})
+      }); 
   }
 }
 
-export const deleteTask = (uid, id) => (dispatch) => {
- firebase.database().ref(`/userTasks/${uid}/${id}`).remove().then(() => {
-   dispatch({type: DELETE_TASK, payload: id});
- });
+export const deleteTask = (uid, taskId) => (dispatch) => {
+  console.log(uid, taskId);
+  firebase.database().ref(`/userTasks/${uid}/${taskId}`).remove().then(() => {
+    dispatch({type: DELETE_TASK, payload: taskId});
+  });
 }
 
-export const editTask = (uid, id) => (dispatch) => {
-  dispatch({type: EDIT_TASK, payload: id})
+export const editTask = (uid, taskId) => (dispatch) => {
+  dispatch({type: EDIT_TASK, payload: taskId})
 }
 
 export const saveEdit = (uid, task) => (dispatch) => {
-  firebase.database().ref(`userTasks/${uid}/${task.id}`).update({
+  firebase.database().ref(`userTasks/${uid}/${task.taskId}`).update({
      description: task.description
   }).then(() => {
-    dispatch({ type: SAVE_EDIT, payload: {description: task.description, id: task.id, complete: task.complete, priority: task.priority } });
+    dispatch({ type: SAVE_EDIT, payload: { description: task.description, 
+                                           taskId: task.taskId, 
+                                           complete: task.complete, 
+                                           priority: task.priority } 
+    });
   })
-  
 }
 
-export const completeTask = (uid, id) => (dispatch) => {
-  firebase.database().ref(`userTasks/${uid}/${id}`).update({
+export const completeTask = (uid, taskId) => (dispatch) => {
+  firebase.database().ref(`userTasks/${uid}/${taskId}`).update({
     complete: true
   }).then(() => {
-    dispatch({ type: COMPLETE_TASK, payload: id })
+    dispatch({ type: COMPLETE_TASK, payload: taskId })
   })
- 
 }
 
-export const uncompleteTask = (uid, id) => (dispatch) => {
-  firebase.database().ref(`userTasks/${uid}/${id}`).update({
+export const uncompleteTask = (uid, taskId) => (dispatch) => {
+  firebase.database().ref(`userTasks/${uid}/${taskId}`).update({
     complete: false
   }).then(() => {
-    dispatch({ type: UNCOMPLETE_TASK, payload: id })
+    dispatch({ type: UNCOMPLETE_TASK, payload: taskId })
   })
 }
 

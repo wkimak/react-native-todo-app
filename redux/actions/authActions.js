@@ -1,10 +1,5 @@
+import { USER_INFO } from '../constants';
 
-const USER_INFO = 'USER_INFO';
-
-export const getUserInfo = function(username, uid) {
-  console.log('UUUIID', uid);
-  return {
-    type: USER_INFO,
-    payload: { username: username, uid: uid }
-  }
+export const getUserInfo = function(uid) {
+  return { type: USER_INFO, payload: uid }
 }

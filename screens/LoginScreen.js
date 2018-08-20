@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
+
 import { StyleSheet, View, Text, Image, ImageBackground } from 'react-native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { connect } from 'react-redux';
+
 import { firebaseConfig } from '../config';
 import * as firebase from 'firebase';
-import { connect } from 'react-redux';
 
 import { getUserInfo } from '../redux/actions/authActions';
 
-
+// initialize Application with firebase. 
+// I am using this initialization in redux task Actions
 firebase.initializeApp(firebaseConfig);
 
 class Login extends Component {
@@ -38,7 +41,7 @@ class Login extends Component {
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
 
       // Sign in with credential from the Facebook user.
-      firebase.auth().signInWithCredential(credential).catch((error) => {
+      firebase.auth().signInAndRetrieveDataWithCredential(credential).catch((error) => {
          console.log(error);
        });
     }
@@ -51,13 +54,12 @@ class Login extends Component {
 
   render() {
     return (
-      <View style={styles.backgroundImage}>
-
+      <View style={ styles.backgroundImage }>
         <View style={ styles.container }>
-            <Text style={styles.text}>Welcome to William's To-Do App</Text>
-            <View style={styles.imageContainer}>
-              <Image style={styles.allTasks} source={require('../assets/AllTasks.png')} />
-              <Image style={styles.CompletedTasks} source={require('../assets/CompletedTasks.png')} />
+            <Text style={ styles.text }>Welcome to William's To-Do App</Text>
+            <View style={ styles.imageContainer }>
+              <Image style={ styles.allTasks } source={require('../assets/AllTasks.png')} />
+              <Image style={ styles.CompletedTasks } source={require('../assets/CompletedTasks.png')} />
             </View>
             <Button 
               icon={ 
@@ -84,8 +86,8 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => {
  return {
-   getUserInfo: (username, uid) => {
-    dispatch(getUserInfo(username, uid));
+   getUserInfo: (uid) => {
+    dispatch(getUserInfo(uid));
    }
  };
 }
@@ -116,7 +118,6 @@ const styles = StyleSheet.create({
 
   text: {
     fontSize: 32,
-  
     marginRight: 50,
     marginLeft: 20
   },

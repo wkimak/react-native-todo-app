@@ -10,37 +10,13 @@ import CompletedTasksScreen from '../screens/CompletedTasksScreen';
 import SortModal from '../components/SortModal';
 
 
+// Login screen
 const AuthStack = createStackNavigator({
   Login: LoginScreen
 });
 
-// const TabBarComponent = (props) => {
-// console.log('PROPS12345', props.jumpTo);
-//   props.jumpTo(props.navigation.state.index)
-//   return (
-//   <BottomTabBar {...props} />
-// )
-// };
 
-// const Bottom = function(props) {
-//   const jumpTo = (index) => {
-
-//     const { navigation: { navigate }, jumpTo } = props;
-
-//     if(index === 2) {
-//       console.log('index is 3')
-//      //jumpTo('AllTasks');
-//      props.navigation.navigate('AllTasks')
-//     }
-
-//   }
-     
-//     return (
-//       <TabBarComponent {...props} jumpTo={ jumpTo } style={{ backgroundColor: 'red'}} />
-//     );
-// }
-
-
+// Bottom Tab Navigator routes, only available after login
 const AppStack = createBottomTabNavigator({
   AllTasks: {
     screen: AllTasksScreen,
@@ -74,13 +50,13 @@ const AppStack = createBottomTabNavigator({
   }
 });
 
+// Switch Navigator, so user does not have back capabilites to Login screen once signed in
 export default createSwitchNavigator({
   Loading: AuthLoadingScreen,
   Auth: AuthStack,
   App: AppStack
 }, {
   initialRouteName: 'Auth',
-  backBehavior: 'initialRoute'
 })
 
 

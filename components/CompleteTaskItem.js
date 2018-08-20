@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Button, TextInput } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 
 const CompleteTaskItem = function({ description }) {

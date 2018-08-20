@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+
 import { StyleSheet, View, Text, Button, FlatList, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
-import HeaderBar from '../components/HeaderBar';
 
+import HeaderBar from '../components/HeaderBar';
 import CompleteTaskItem from '../components/CompleteTaskItem';
+import BackgroundPhoto from '../components/BackgroundPhoto';
 
 class CompletedTasks extends Component {
   render() {
@@ -11,13 +13,11 @@ class CompletedTasks extends Component {
     return (
       <View style={ styles.tasksContainer }>
       <HeaderBar />
-      <ImageBackground source={ require('../assets/nightsky.jpeg') } style={styles.backgroundImage}>
-        <View style={styles.whiteOverlay}></View>
-      </ImageBackground>
+      <BackgroundPhoto />
     
       <FlatList
         data={ taskList.map((item) => (
-              { key: item.id, description: item.description, complete: item.complete }
+              { key: item.taskId, description: item.description, complete: item.complete }
         ))}
         renderItem={({ item }) => {
           if(item.complete) {
@@ -44,14 +44,4 @@ const styles = {
      backgroundColor: '#F5F5F5'
   },
 
-  backgroundImage: {
-    flex: 0.5,
-    width: 375
-  },
-  whiteOverlay: {
-    flex: 2,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(255,255,255,0.2)'
-  }
 }
