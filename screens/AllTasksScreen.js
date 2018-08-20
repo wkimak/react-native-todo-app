@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Button, FlatList, ImageBackground } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { AsyncStorage, StyleSheet, View, Text, Button, FlatList, ImageBackground } from 'react-native';
+import { NavigationActions } from 'react-navigation';
+//import { Icon } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/Entypo';
 import { connect } from 'react-redux';
 
 import { addTask, readTasks, deleteTask, editTask, saveEdit, completeTask, uncompleteTask } from '../redux/actions/taskActions';
 import TaskItem from '../components/TaskItem';
 import AddForm from '../components/AddForm';
+import SortModal from '../components/SortModal';
 
 class AllTasks extends Component {
 
@@ -20,9 +23,16 @@ class AllTasks extends Component {
     this.props.readTasks(this.props.uid);
   }
 
+  handleSignOut = async () => {
+      await AsyncStorage.clear();
+      this.props.navigation.navigate('Auth');
+      //<Icon name='log-out' size={40} onPress={() => this.handleSignOut() } />
+   }
+
 
   render() {
-    const { taskList, 
+    const { navigation,
+            taskList, 
             editIndex, 
             addTask,
             deleteTask, 
@@ -35,10 +45,11 @@ class AllTasks extends Component {
 
     return (
       <View style={ styles.container }>
-       <ImageBackground source={ require('../assets/mountainview.jpeg') } style={styles.backgroundImage}>
-         <Text style={styles.welcome}> Hello {this.props.username}</Text>
-         <AddForm addTask={ addTask } uid={ uid } />
-       </ImageBackground>
+        <ImageBackground source={ require('../assets/mountainview.jpeg') } style={styles.backgroundImage}>
+          <Text style={styles.welcome}> Hello {this.props.username}</Text>
+          <AddForm addTask={ addTask } uid={ uid } />
+        </ImageBackground>
+        <SortModal />
        
         <FlatList 
           data = { taskList.map((item, i) => {
@@ -48,6 +59,7 @@ class AllTasks extends Component {
                       uid: uid,
                       description: item.description,
                       isComplete: item.complete,
+                      isPriority: item.priority,
                       editIndex: editIndex,
                       editTask: editTask,
                       saveEdit: saveEdit,
@@ -63,6 +75,7 @@ class AllTasks extends Component {
               uid={item.uid}
               description={item.description}
               isComplete={item.isComplete}
+              isPriority={item.isPriority}
               editIndex={item.editIndex}
               editTask={item.editTask}
               saveEdit={item.saveEdit}

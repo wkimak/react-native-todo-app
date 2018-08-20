@@ -32,6 +32,8 @@ class Login extends Component {
       });
 
     if (type === 'success') {
+      this.props.navigation.navigate('Loading');
+
       // Build Firebase credential with the Facebook access token.
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
 

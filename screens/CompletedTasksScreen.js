@@ -38,8 +38,6 @@ export default connect(mapStateToProps, {})(CompletedTasks);
 const styles = {
   tasksContainer: {
      flex: 1,
-     flexDirection: 'column',
-     alignItems: 'center',
      backgroundColor: '#F5F5F5'
   },
 

@@ -35,16 +35,18 @@ class TaskItem extends Component {
             editTask,
             saveEdit, 
             editIndex, 
+            isPriority,
             uid,
             id } = this.props;
 
     
       return (
-        <TouchableOpacity style={ styles.container } onPress={ () => {!this.state.isEditing ? this.setState({ isEditing: true }) : this.handleSaveEdit()} }>
+        <TouchableOpacity style={ !isPriority ? styles.container : styles.priorityContainer } onPress={ () => {!this.state.isEditing ? this.setState({ isEditing: true }) : this.handleSaveEdit()} }>
           <CheckBox
             containerStyle={{
-              backgroundColor:'#fff',
-              width: 45
+              backgroundColor:'transparent',
+              width: 40,
+              borderWidth: 0
             }}
             checkedIcon='dot-circle-o'
             uncheckedIcon='circle-o'
@@ -78,10 +80,22 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     flexDirection: 'row',
     backgroundColor: '#fff',
-    padding: 10,
-    marginBottom: 5,
-    borderBottomWidth: 0.3,
-    borderBottomColor: '#ff7c54'
+    paddingTop: 3,
+    paddingBottom: 3,
+    paddingRight: 10,
+    marginBottom: 1
+  },
+
+  priorityContainer: {
+    borderRadius: 3,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    paddingTop: 3,
+    paddingBottom: 3,
+    paddingRight: 10,
+    marginBottom: 1,
+    borderBottomColor: 'orange',
+    borderBottomWidth: 0.5
   },
 
   description: {

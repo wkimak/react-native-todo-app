@@ -11,7 +11,7 @@ const taskReducer = (state = initialState, action) => {
     case 'ADD_TASK':
       return {
         ...state,
-        taskList: [...state.taskList, {description: action.payload.description, id: action.payload.id, complete: action.payload.complete }]
+        taskList: [...state.taskList, {description: action.payload.description, id: action.payload.id, complete: action.payload.complete, priority: action.payload.priority }]
       }
 
     case 'READ_TASKS':

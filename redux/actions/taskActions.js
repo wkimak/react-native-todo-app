@@ -8,15 +8,16 @@ export const UNCOMPLETE_TASK = 'UNCOMPLETE_TASK';
 
 import * as firebase from 'firebase';
 
-export const addTask = (task) => (dispatch) => {
-  firebase.database().ref(`/userTasks/${task.uid}/${task.id}`).set(
+export const addTask = (uid, task) => (dispatch) => {
+  firebase.database().ref(`/userTasks/${uid}/${task.id}`).set(
     {
       description: task.description,
       id: task.id,
-      complete: task.complete
+      complete: task.complete,
+      priority: task.priority
     }
   ).then(() => {
-      dispatch({ type: ADD_TASK, payload: {description: task.description, id: task.id, complete: task.complete} });
+      dispatch({ type: ADD_TASK, payload: {description: task.description, id: task.id, complete: task.complete, priority: task.priority } });
    }).catch((err) => {
     console.log('ERROR', err);
    });
@@ -42,7 +43,7 @@ export const saveEdit = (uid, task) => (dispatch) => {
   firebase.database().ref(`userTasks/${uid}/${task.id}`).update({
      description: task.description
   }).then(() => {
-    dispatch({ type: SAVE_EDIT, payload: {description: task.description, id: task.id, complete: task.complete} });
+    dispatch({ type: SAVE_EDIT, payload: {description: task.description, id: task.id, complete: task.complete, priority: task.priority } });
   })
   
 }
@@ -64,6 +65,8 @@ export const uncompleteTask = (uid, id) => (dispatch) => {
   })
   
 }
+
+
 
 
 
